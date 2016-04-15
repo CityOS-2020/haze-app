@@ -9,7 +9,7 @@
             android:layout_height="wrap_content"
             android:text="@string/survey_title"
             android:id="@+id/textViewNaslov" android:layout_gravity="center_horizontal" android:textSize="30dp"
-            android:textColor="@color/black" android:gravity="bottom" android:layout_weight="1"/>
+             android:gravity="bottom" android:layout_weight="1"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -17,12 +17,12 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewFirst" android:src="@drawable/meat" android:layout_gravity="left"
+                android:id="@+id/imageViewFirst"  android:layout_gravity="left"
                 android:layout_weight=".5" android:layout_marginRight="5dp"/>
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewSecond" android:src="@drawable/veggies_br" android:layout_weight=".5"
+                android:id="@+id/imageViewSecond"  android:layout_weight=".5"
                 android:layout_marginLeft="5dp"/>
     </LinearLayout>
 </LinearLayout>
