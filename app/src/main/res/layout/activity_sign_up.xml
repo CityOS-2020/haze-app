@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="robotics.mateosokac.oomphsterapp.SignUp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:gravity="center">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_facebook_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+            />
+
+        </LinearLayout>
+        <Button
+                android:layout_width="50dp"
+                android:layout_height="48dp"
+                android:id="@+id/button" android:background="@drawable/instagramicon"
+                android:layout_gravity="right" android:onClick="connectOrDisconnectUser"
+                android:layout_marginLeft="20dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="@string/signup"
+        android:id="@+id/header"
+        android:gravity="center"
+        android:editable="false"
+        android:textSize="30dp" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/signUpName"
+        android:hint="@string/enterName"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/signUpSurname"
+        android:hint="@string/enterSurname"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/signUpEmail"
+        android:hint="@string/enterEmail"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/signUpPassword"
+        android:hint="@string/enterPassword"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/signUpConfirmPassword"
+        android:hint="@string/enterConfirmPass"
+        android:layout_marginTop="10dp" />
+
+    <EditText android:layout_width="250dp" android:layout_height="wrap_content"
+              android:ems="10" android:id="@+id/editTextGender" android:hint="Male, Female?"
+              android:layout_marginTop="10dp" android:inputType="text"/>
+    <Button
+        android:layout_width="167dp"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        android:id="@+id/buttonSignUpConfirm"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:onClick="confirmSignUp"
+        android:nestedScrollingEnabled="true" />
+</LinearLayout>
