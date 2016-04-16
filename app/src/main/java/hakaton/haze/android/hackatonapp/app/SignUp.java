@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,6 +35,11 @@ import java.util.concurrent.ExecutionException;
 
 public class SignUp extends Activity implements URLS
 {
+
+    private static final String API_URL = "https://api.instagram.com/v1";
+    private static final String TAG = "InstagramAPI";
+
+    private InstagramSession mSession;
     private EditText name, lastName, password, confirmPassword, email,gender;
     public static Context c;
     boolean rememberMeOption = false;
@@ -91,6 +98,7 @@ public class SignUp extends Activity implements URLS
         email = (EditText) findViewById(R.id.signUpEmail);
         gender = (EditText) findViewById(R.id.editTextGender);
 
+        mSession = new InstagramSession(this);
         mApp = new InstagramApp(this, InstagramAppData.CLIENT_ID,
                 InstagramAppData.CLIENT_SECRET, InstagramAppData.CALLBACK_URL);
         mApp.setListener(new InstagramApp.OAuthAuthenticationListener() {
@@ -98,6 +106,33 @@ public class SignUp extends Activity implements URLS
             @Override
             public void onSuccess() {
                 mApp.fetchUserName(handler);
+                URL url;
+                try {
+
+                    url = new URL(API_URL + "/users/" + mSession.getId()
+                            + "/?access_token=" + mSession.getAccessToken());
+                    getUserInformation(url);
+
+                    /*String usrn = obj.getString("username");
+                    String fullname = obj.getString("full_name");
+
+                    String[] parts = fullname.split(" ");
+
+                    postSignup(parts[0], parts[1], usrn, "null", "null", "null");*/
+
+
+                    //tags
+                    url = new URL(API_URL + "/tags/hakaton/media/recent?access_token=" + mSession.getAccessToken());
+                    getTagInformation(url);
+
+                    url = new URL(API_URL + "/tags/hakaton?access_token=" + mSession.getAccessToken());
+                    getTagCount(url);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+
                 startActivity(new Intent(SignUp.this, Survey.class));
             }
 
@@ -407,5 +442,104 @@ public class SignUp extends Activity implements URLS
         }
     }
 
+    public void getUserInformation(final URL url){
+        new Thread() {
+            @Override
+            public void run() {
+                try {
 
+                    Log.d(TAG, "Opening URL " + url.toString());
+                    HttpURLConnection urlConnection = (HttpURLConnection) url
+                            .openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setDoInput(true);
+                    urlConnection.connect();
+                    String response = Utils.streamToString(urlConnection
+                            .getInputStream());
+
+                    JSONObject jObj = new JSONObject(response);
+                    JSONObject obj = jObj.getJSONObject("data");
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void getTagInformation(final URL url){
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+
+                    Log.d(TAG, "Opening URL " + url.toString());
+                    HttpURLConnection urlConnection = (HttpURLConnection) url
+                            .openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setDoInput(true);
+                    urlConnection.connect();
+                    String response = Utils.streamToString(urlConnection
+                            .getInputStream());
+
+                    JSONObject jObj = new JSONObject(response);
+                    JSONArray array = jObj.getJSONArray("data");
+                    for(int i =0; i < array.length(); i++) {
+                        String json = array.get(i).toString();
+                       // System.out.println(json);
+                        JSONObject o = array.getJSONObject(i);
+                        JSONArray a = o.getJSONArray("tags");
+                        for(int j =0;j < a.length(); j++) {
+                            System.out.println(a.get(j).toString());
+                        }
+                    }
+
+
+                    //System.out.println(tags.toString());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void getTagCount(final URL url){
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+
+                    Log.d(TAG, "Opening URL " + url.toString());
+                    HttpURLConnection urlConnection = (HttpURLConnection) url
+                            .openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setDoInput(true);
+                    urlConnection.connect();
+                    String response = Utils.streamToString(urlConnection
+                            .getInputStream());
+
+                    JSONObject jObj = new JSONObject(response);
+                    JSONObject array = jObj.getJSONObject("data");
+                    System.out.println(array.getString("media_count"));
+
+
+                    //System.out.println(tags.toString());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 }
