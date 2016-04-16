@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import me.dm7.barcodescanner.core.BarcodeScannerView;
 import me.dm7.barcodescanner.core.DisplayUtils;
-import net.sourceforge.zbar.*;
 
 import java.util.Collection;
 import java.util.List;

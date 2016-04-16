@@ -7,7 +7,6 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.*;
 
 import java.util.List;
 

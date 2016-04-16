@@ -5,12 +5,9 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.AttributeSet;
-import com.google.zxing.*;
 import com.google.zxing.common.HybridBinarizer;
 import me.dm7.barcodescanner.core.BarcodeScannerView;
 import me.dm7.barcodescanner.core.DisplayUtils;
-
-import java.util.*;
 
 public class ZXingScannerView extends BarcodeScannerView {
     public interface ResultHandler {

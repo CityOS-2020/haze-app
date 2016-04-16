@@ -3,7 +3,6 @@ package hakaton.haze.android.hackatonapp.app;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -104,7 +103,7 @@ public class Login extends FragmentActivity implements URLS
             b.execute(SERVER_URL_Login, "login", usernameString, passwordString);
             String response = b.get();
             if(response.equalsIgnoreCase("200")){
-                Intent i = new Intent(this, MenuActivity.class);
+                Intent i = new Intent(this, MainMenuActivity.class);
                 startActivity(i);
                 finish();
             }

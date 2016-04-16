@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 
 public class MainMenuActivity extends ActionBarActivity {
@@ -29,6 +31,7 @@ public class MainMenuActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         mDrawerList = (ListView)findViewById(R.id.navList);
@@ -53,7 +56,7 @@ public class MainMenuActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mApp.hasAccessToken()) {
+                if (mApp.hasAccessToken() || (AccessToken.getCurrentAccessToken() != null)) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(
                             MainMenuActivity.this);
                     builder.setMessage("Are you sure you want to logout?")
@@ -63,6 +66,7 @@ public class MainMenuActivity extends ActionBarActivity {
                                         public void onClick(DialogInterface dialog,
                                                             int id) {
                                             mApp.resetAccessToken();
+                                            LoginManager.getInstance().logOut();
                                             backToLogin();
                                         }
                                     })
@@ -86,6 +90,7 @@ public class MainMenuActivity extends ActionBarActivity {
                                         public void onClick(DialogInterface dialog,
                                                             int id) {
                                             mApp.resetAccessToken();
+                                            LoginManager.getInstance().logOut();
                                             backToLogin();
                                         }
                                     });

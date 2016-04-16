@@ -174,12 +174,18 @@ public class SignUp extends Activity implements URLS
                         try {
                             String lastName = graphObject.getString("first_name");
                             String firstName = graphObject.getString("last_name");
-                            String birthday = graphObject.getString("birthday");
+                            String birthday ="";
+                            if(graphObject.has("birthday"))
+                                  birthday = graphObject.getString("birthday");
                             String gender = graphObject.getString("gender");
                             String email = graphObject.getString("email");
                             System.out.println(lastName + firstName + birthday + gender+email);
-                            JSONObject location = graphObject.getJSONObject("location");
-                            String locationString = location.getString("name");
+                            JSONObject location = null;
+                            String locationString = "";
+                            if(graphObject.has("location")) {
+                                location = graphObject.getJSONObject("location");
+                                locationString = location.getString("name");
+                            }
                             postSignup(firstName,lastName,email,gender,birthday,locationString);
 
                         } catch (JSONException e) {
@@ -480,10 +486,10 @@ public class SignUp extends Activity implements URLS
             }
         };
         t.start();
-        /*while (t.getState() != Thread.State.TERMINATED){
+        while (t.getState() != Thread.State.TERMINATED){
 
         }
-        postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");*/
+        postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");
     }
 
     public void getTagInformation(final URL url){
