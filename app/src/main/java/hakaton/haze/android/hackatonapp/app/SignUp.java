@@ -38,6 +38,7 @@ public class SignUp extends Activity implements URLS
 
     private static final String API_URL = "https://api.instagram.com/v1";
     private static final String TAG = "InstagramAPI";
+    private static int REQUEST_EXIT = 0, RESULT_OK = 1;
 
     private String usernameIG, nameIG, lastnameIG;
     private InstagramSession mSession;
@@ -129,8 +130,11 @@ public class SignUp extends Activity implements URLS
                     e.printStackTrace();
                 }
 
-
-                startActivity(new Intent(SignUp.this, Survey.class));
+                Intent i = new Intent(SignUp.this, Survey.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(i);
+                setResult(RESULT_OK, null);
+                finish();
             }
 
             @Override
@@ -212,6 +216,7 @@ public class SignUp extends Activity implements URLS
             {
                 finish();
                 Intent i = new Intent(this, Survey.class);
+                setResult(RESULT_OK, null);
                 startActivity(i);
             }
         }catch(ExecutionException e)
@@ -475,10 +480,10 @@ public class SignUp extends Activity implements URLS
             }
         };
         t.start();
-        while (t.getState() != Thread.State.TERMINATED){
+        /*while (t.getState() != Thread.State.TERMINATED){
 
         }
-        postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");
+        postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");*/
     }
 
     public void getTagInformation(final URL url){

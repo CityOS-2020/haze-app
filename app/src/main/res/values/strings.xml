@@ -30,7 +30,15 @@
     <string name="title_activity_calculator">CalculatorActivity</string>
     <string name="title_activity_info_pair_turn_on_your_collar">InfoPairTurnOnYourCollar</string>
     <string name="survey_title">Which do you prefer?</string>
+    <string name="or">OR</string>
     <string name="title_activity_survey">Survey</string>
 
     <string name="hello_world">Hello world!</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="title_activity_main_menu">Main Menu</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>

@@ -3,6 +3,7 @@ package hakaton.haze.android.hackatonapp.app;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,17 +20,13 @@ public class Login extends FragmentActivity implements URLS
     EditText password;
     public static Context c;
     public CheckBox rememberMe;
+    private static int REQUEST_EXIT = 0, RESULT_OK = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-
-
-
         setContentView(R.layout.activity_login);
-
         Intent is = getIntent();
 
         c = this;
@@ -39,6 +36,8 @@ public class Login extends FragmentActivity implements URLS
         rememberMe.setChecked(true);
 
         checkRememberMe();
+
+
     }
 
 
@@ -82,15 +81,10 @@ public class Login extends FragmentActivity implements URLS
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
-
     public void signUp(View v)
     {
         Intent i = new Intent(this, SignUp.class);
-        startActivity(i);
+        startActivityForResult(i, REQUEST_EXIT);
     }
 
     //login with real server
@@ -112,6 +106,18 @@ public class Login extends FragmentActivity implements URLS
             if(response.equalsIgnoreCase("200")){
                 Intent i = new Intent(this, MenuActivity.class);
                 startActivity(i);
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_EXIT) {
+            if (resultCode == RESULT_OK) {
+                this.finish();
+
             }
         }
     }
