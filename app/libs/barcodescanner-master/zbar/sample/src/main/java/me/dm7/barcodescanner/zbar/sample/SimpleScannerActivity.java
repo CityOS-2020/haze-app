@@ -3,7 +3,6 @@ package me.dm7.barcodescanner.zbar.sample;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
-
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 

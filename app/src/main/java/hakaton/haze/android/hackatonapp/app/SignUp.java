@@ -123,6 +123,7 @@ public class SignUp extends Activity implements URLS
                 getUserPhotos();
                 getUserEmail(loginResult);
 
+
                 String accessToken = loginResult.getAccessToken().getToken();
                 Log.i("accessToken", accessToken);
 
@@ -133,6 +134,7 @@ public class SignUp extends Activity implements URLS
                         System.out.println(response.toString());
                         //Bundle bFacebookData = getFacebookData(object);
                         JSONObject graphObject = response.getJSONObject();
+                        getFacebookData(graphObject);
                         try {
                             String lastName = graphObject.getString("first_name");
                             String firstName = graphObject.getString("last_name");
@@ -199,7 +201,7 @@ public class SignUp extends Activity implements URLS
         try {
             bundle = new Bundle();
             String id = object.getString("id");
-
+            getUserEvents(id);
             try {
                 URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
                 Log.i("profile_pic", profile_pic + "");
@@ -229,6 +231,21 @@ public class SignUp extends Activity implements URLS
             e.printStackTrace();
         }
         return bundle;
+    }
+
+    private void getUserEvents(String id)
+    {
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+id+"/events",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        System.out.println("Events:" + response.toString());
+                    }
+                }
+        ).executeAsync();
     }
 
     @Override

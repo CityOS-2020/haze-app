@@ -2,8 +2,8 @@ package me.dm7.barcodescanner.zbar;
 
 import net.sourceforge.zbar.Symbol;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BarcodeFormat {
     private int mId;

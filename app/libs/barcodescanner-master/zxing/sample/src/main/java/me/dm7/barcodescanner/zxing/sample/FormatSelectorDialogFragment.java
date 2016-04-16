@@ -5,12 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-
 import com.google.zxing.BarcodeFormat;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import java.util.ArrayList;
-
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class FormatSelectorDialogFragment extends DialogFragment {
     public interface FormatSelectorDialogListener {

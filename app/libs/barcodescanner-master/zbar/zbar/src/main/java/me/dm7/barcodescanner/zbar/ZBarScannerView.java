@@ -2,25 +2,15 @@ package me.dm7.barcodescanner.zbar;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.hardware.Camera;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-
-import net.sourceforge.zbar.Config;
-import net.sourceforge.zbar.Image;
-import net.sourceforge.zbar.ImageScanner;
-import net.sourceforge.zbar.Symbol;
-import net.sourceforge.zbar.SymbolSet;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
 import me.dm7.barcodescanner.core.BarcodeScannerView;
 import me.dm7.barcodescanner.core.DisplayUtils;
+import net.sourceforge.zbar.*;
+
+import java.util.Collection;
+import java.util.List;
 
 public class ZBarScannerView extends BarcodeScannerView {
     public interface ResultHandler {

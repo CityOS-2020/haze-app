@@ -10,14 +10,12 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends ActionBarActivity implements MessageDialogFragment.MessageDialogListener,
         ZXingScannerView.ResultHandler, FormatSelectorDialogFragment.FormatSelectorDialogListener,

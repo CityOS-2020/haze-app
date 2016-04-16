@@ -3,9 +3,7 @@ package me.dm7.barcodescanner.zxing.sample;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
-
 import com.google.zxing.Result;
-
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class SimpleScannerActivity extends ActionBarActivity implements ZXingScannerView.ResultHandler {

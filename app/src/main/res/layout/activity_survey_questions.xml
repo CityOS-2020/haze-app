@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:background="#25333C">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/survey_title"
-            android:id="@+id/textViewNaslov" android:layout_gravity="center_horizontal" android:textSize="30dp"
-             android:gravity="bottom" android:layout_weight="1"/>
+            android:id="@+id/textViewNaslov" android:textSize="30dp"
+            android:gravity="bottom" android:textColor="#FFF"
+            android:layout_gravity="center_horizontal" android:layout_marginBottom="50dp"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

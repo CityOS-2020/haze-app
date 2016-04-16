@@ -2,71 +2,76 @@
               xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
               android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingTop="100dp"
               android:paddingBottom="@dimen/activity_vertical_margin"
               tools:context=".MainActivity"
               android:orientation="vertical"
-              android:gravity="center">
+              android:gravity="center" android:background="#25333C">
 
 
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/usernameText"
-        android:phoneNumber="false"
-        android:hint="@string/hintUsername"
-        android:layout_above="@+id/passwordText"
-        android:layout_centerHorizontal="true"
-        android:gravity="left" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:textColorHint="#FFF"
+            android:id="@+id/usernameText"
+            android:phoneNumber="false"
+            android:hint="@string/hintUsername"
+            android:layout_above="@+id/passwordText"
+            android:layout_centerHorizontal="true"
+            android:gravity="left" android:textColor="#FFF"/>
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/passwordText"
-        android:hint="@string/hintPassword"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/usernameText"
-        android:layout_alignStart="@+id/usernameText"
-        android:gravity="left"
-        android:layout_gravity="center_horizontal" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:textColorHint="#FFF"
+            android:id="@+id/passwordText"
+            android:hint="@string/hintPassword"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/usernameText"
+            android:layout_alignStart="@+id/usernameText"
+            android:gravity="left"
+            android:layout_gravity="center_horizontal" android:textColor="#FFF"/>
 
-    <Button
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:id="@+id/buttonLogin"
-        android:layout_below="@+id/passwordText"
-        android:layout_alignLeft="@+id/passwordText"
-        android:layout_alignStart="@+id/passwordText"
-        android:layout_alignRight="@+id/passwordText"
-        android:layout_alignEnd="@+id/passwordText"
-        android:onClick="login"
-        android:nestedScrollingEnabled="true"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center" />
-
-    <Button
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:text="@string/signup"
-        android:id="@+id/buttonSignup"
-        android:layout_below="@+id/buttonLogin"
-        android:layout_alignLeft="@+id/buttonLogin"
-        android:layout_alignStart="@+id/buttonLogin"
-        android:layout_alignRight="@+id/passwordText"
-        android:layout_alignEnd="@+id/passwordText"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:onClick="signUp"
-        android:nestedScrollingEnabled="false" />
     <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rememberMe"
             android:id="@+id/checkBox" android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:gravity="center_horizontal" android:layout_marginTop="10dp">
+        <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:id="@+id/buttonLogin"
+                android:layout_below="@+id/passwordText"
+                android:layout_alignLeft="@+id/passwordText"
+                android:layout_alignStart="@+id/passwordText"
+                android:layout_alignRight="@+id/passwordText"
+                android:layout_alignEnd="@+id/passwordText"
+                android:onClick="login"
+                android:nestedScrollingEnabled="true"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center" android:background="@drawable/go_button" android:layout_marginRight="5dp"/>
+        <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:id="@+id/buttonSignup"
+                android:layout_below="@+id/buttonLogin"
+                android:layout_alignLeft="@+id/buttonLogin"
+                android:layout_alignStart="@+id/buttonLogin"
+                android:layout_alignRight="@+id/passwordText"
+                android:layout_alignEnd="@+id/passwordText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:onClick="signUp"
+                android:nestedScrollingEnabled="false" android:background="@drawable/register_button"
+                android:layout_marginLeft="5dp"/>
+    </LinearLayout>
 </LinearLayout>
