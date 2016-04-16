@@ -39,6 +39,7 @@ public class SignUp extends Activity implements URLS
     private static final String API_URL = "https://api.instagram.com/v1";
     private static final String TAG = "InstagramAPI";
 
+    private String usernameIG, nameIG, lastnameIG;
     private InstagramSession mSession;
     private EditText name, lastName, password, confirmPassword, email,gender;
     public static Context c;
@@ -113,13 +114,9 @@ public class SignUp extends Activity implements URLS
                             + "/?access_token=" + mSession.getAccessToken());
                     getUserInformation(url);
 
-                    /*String usrn = obj.getString("username");
-                    String fullname = obj.getString("full_name");
 
-                    String[] parts = fullname.split(" ");
-
-                    postSignup(parts[0], parts[1], usrn, "null", "null", "null");*/
-
+                    //url = new URL(API_URL + "/users/self/media/liked?access_token=" + mSession.getAccessToken());
+                    //getUserInformation(url);
 
                     //tags
                     url = new URL(API_URL + "/tags/hakaton/media/recent?access_token=" + mSession.getAccessToken());
@@ -443,7 +440,7 @@ public class SignUp extends Activity implements URLS
     }
 
     public void getUserInformation(final URL url){
-        new Thread() {
+        Thread t = new Thread() {
             @Override
             public void run() {
                 try {
@@ -460,6 +457,14 @@ public class SignUp extends Activity implements URLS
                     JSONObject jObj = new JSONObject(response);
                     JSONObject obj = jObj.getJSONObject("data");
 
+                    usernameIG = obj.getString("username");
+                    String fullname = obj.getString("full_name");
+
+                    String[] parts = fullname.split(" ");
+                    nameIG = parts[0];
+                    lastnameIG = parts[1];
+
+                    System.out.println(response);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }catch (IOException e) {
@@ -468,7 +473,12 @@ public class SignUp extends Activity implements URLS
                     e.printStackTrace();
                 }
             }
-        }.start();
+        };
+        t.start();
+        while (t.getState() != Thread.State.TERMINATED){
+
+        }
+        postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");
     }
 
     public void getTagInformation(final URL url){
@@ -497,9 +507,6 @@ public class SignUp extends Activity implements URLS
                             System.out.println(a.get(j).toString());
                         }
                     }
-
-
-                    //System.out.println(tags.toString());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }catch (IOException e) {
