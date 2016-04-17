@@ -38,9 +38,9 @@ public class MenuActivity extends ActionBarActivity {
         Intent i = getIntent();
         int position = i.getIntExtra("int", 0);
         MarkerOptions markerOptions = new MarkerOptions();
-        LatLng latLng = new LatLng(ListAdapter.eventinfo.get(position).getLng(),ListAdapter.eventinfo.get(position).getLat());
+        LatLng latLng = new LatLng(ListAdapter.eventinfoSort.get(position).getLng(),ListAdapter.eventinfoSort.get(position).getLat());
         markerOptions.position(latLng);
-        markerOptions.title(ListAdapter.eventinfo.get(position).getEventName());
+        markerOptions.title(ListAdapter.eventinfoSort.get(position).getEventName());
 
         //instanciranje mape
         myMap= ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -51,7 +51,7 @@ public class MenuActivity extends ActionBarActivity {
 
         myMap.addMarker(markerOptions);
         myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-                Float.parseFloat(ListAdapter.eventinfo.get(position).getLng()+""),Float.parseFloat(ListAdapter.eventinfo.get(position).getLat()+"")), 7));
+                Float.parseFloat(ListAdapter.eventinfoSort.get(position).getLng()+""),Float.parseFloat(ListAdapter.eventinfoSort.get(position).getLat()+"")), 7));
 
 
 
@@ -66,11 +66,11 @@ public class MenuActivity extends ActionBarActivity {
         TextView date = (TextView) findViewById(R.id.date);
         TextView time = (TextView)findViewById(R.id.time);
 
-        String ename = ListAdapter.eventinfo.get(position).getEventName();
-        String ecity = ListAdapter.eventinfo.get(position).getCity();
-        String edescription = ListAdapter.eventinfo.get(position).getDesc();
-        String edate = ListAdapter.eventinfo.get(position).getDate();
-        String etime = ListAdapter.eventinfo.get(position).getTime();
+        String ename = ListAdapter.eventinfoSort.get(position).getEventName();
+        String ecity = ListAdapter.eventinfoSort.get(position).getCity();
+        String edescription = ListAdapter.eventinfoSort.get(position).getDesc();
+        String edate = ListAdapter.eventinfoSort.get(position).getDate();
+        String etime = ListAdapter.eventinfoSort.get(position).getTime();
 
 
         if(!ename.equalsIgnoreCase("null"))
@@ -99,7 +99,7 @@ public class MenuActivity extends ActionBarActivity {
 
     private static void addMyLocation()
     {
-        if(myLocation!=null)
+        if(myLocation != null)
         {
             myLatitude = myLocation.getLatitude();
             myLongitude = myLocation.getLongitude();

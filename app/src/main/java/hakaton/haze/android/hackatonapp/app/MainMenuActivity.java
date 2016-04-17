@@ -43,8 +43,6 @@ public class MainMenuActivity extends ActionBarActivity {
 
         addDrawerItems();
         setupDrawer();
-
-
     }
 
     private void addDrawerItems() {

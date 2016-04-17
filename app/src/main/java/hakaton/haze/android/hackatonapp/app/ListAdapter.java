@@ -18,24 +18,22 @@ import java.util.List;
 public class ListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    public static List<Event> eventinfo;
     public static List<Event> eventinfoSort;
     public int cnt = 0;
 
-    public ListAdapter(Activity activity, List<Event> movieItems, List<Event> movieItems2) {
+    public ListAdapter(Activity activity, List<Event> movieItems2) {
         this.activity = activity;
-        this.eventinfo = movieItems;
         this.eventinfoSort = movieItems2;
     }
 
     @Override
     public int getCount() {
-        return eventinfo.size();
+        return eventinfoSort.size();
     }
 
     @Override
     public Object getItem(int location) {
-        return eventinfo.get(location);
+        return eventinfoSort.get(location);
     }
 
     @Override
@@ -69,11 +67,11 @@ public class ListAdapter extends BaseAdapter {
         TextView date = (TextView) convertView.findViewById(R.id.date);
         TextView time = (TextView) convertView.findViewById(R.id.time);
 
-        String ename = eventinfo.get(position).getEventName();
-        String ecity = eventinfo.get(position).getCity();
-        String edescription = eventinfo.get(position).getDesc();
-        String edate = eventinfo.get(position).getDate();
-        String etime = eventinfo.get(position).getTime();
+        String ename = eventinfoSort.get(position).getEventName();
+        String ecity = eventinfoSort.get(position).getCity();
+        String edescription = eventinfoSort.get(position).getDesc();
+        String edate = eventinfoSort.get(position).getDate();
+        String etime = eventinfoSort.get(position).getTime();
 
         if(!ename.equalsIgnoreCase("null"))
             name.setText(ename);

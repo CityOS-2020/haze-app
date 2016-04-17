@@ -19,7 +19,7 @@ public class EventList extends AppCompatActivity implements URLS{
     ListView list;
     ListAdapter adapter;
     List<Event> l;
-    List<Event> lSort;
+    boolean sort = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,13 @@ public class EventList extends AppCompatActivity implements URLS{
 
         Intent i = getIntent();
         l = new ArrayList<Event>();
-        lSort = new ArrayList<Event>();
+        if(!sort)
+            prepareData();
+        else
+            prepareDataSort();
 
-        prepareData();
-        prepareDataSort();
         list = (ListView)findViewById(R.id.list);
-        adapter = new ListAdapter(this, l, lSort);
+        adapter = new ListAdapter(this, l);
         list.setAdapter(adapter);
 
     }
@@ -44,10 +45,9 @@ public class EventList extends AppCompatActivity implements URLS{
         try {
             JSONObject obj = new JSONObject(backgroundHTTP.get());
             JSONArray arr =obj.getJSONArray("data");
-            for(int i = 0; i< arr.length(); i++)
-            {
+            for(int i = 0; i< arr.length(); i++) {
                 JSONObject o = new JSONObject(arr.get(i).toString());
-                l.add(new Event(o.getString("eventName"),o.getString("category"),o.getString("description"),o.getString("eventDate"),
+                l.add(new Event(o.getString("eventName"), o.getString("category"), o.getString("description"), o.getString("eventDate"),
                         o.getString("eventTime"), o.getDouble("latitude"), o.getDouble("longitude"), o.getString("cityName"),
                         o.getString("keyword1"), o.getString("keyword2"), o.getString("keyword3")));
 
@@ -65,17 +65,16 @@ public class EventList extends AppCompatActivity implements URLS{
     private void prepareDataSort() {
         BackgroundHTTP backgroundHTTP = new BackgroundHTTP(this);
         backgroundHTTP.execute(SERVER_URL_EVENT_Sort,"event", " " ,Survey.user );
-        /*
+
         try {
             JSONObject obj = new JSONObject(backgroundHTTP.get());
             JSONArray arr =obj.getJSONArray("data");
             for(int i = 0; i< arr.length(); i++)
             {
                 JSONObject o = new JSONObject(arr.get(i).toString());
-                l.add(new Event(o.getString("eventName"),o.getString("category"),o.getString("description"),o.getString("eventDate"),
-                        o.getString("eventTime"), o.getDouble("latitude"), o.getDouble("longitude"), o.getString("cityName"),
-                        o.getString("keyword1"), o.getString("keyword2"), o.getString("keyword3")));
-
+                    l.add(new Event(o.getString("eventName"), o.getString("category"), o.getString("description"), o.getString("eventDate"),
+                            o.getString("eventTime"), o.getDouble("latitude"), o.getDouble("longitude"), o.getString("cityName"),
+                            o.getString("keyword1"), o.getString("keyword2"), o.getString("keyword3")));
 
             }
         } catch (InterruptedException e) {
@@ -85,7 +84,7 @@ public class EventList extends AppCompatActivity implements URLS{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        */
+
     }
 
     @Override
@@ -104,6 +103,13 @@ public class EventList extends AppCompatActivity implements URLS{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if(sort)
+                sort =  false;
+            else
+                sort = true;
+
+            list.invalidate();
+            list.invalidateViews();
             return true;
         }
 
