@@ -44,8 +44,7 @@ public class MainMenuActivity extends ActionBarActivity {
         addDrawerItems();
         setupDrawer();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
     }
 
     private void addDrawerItems() {
@@ -148,6 +147,12 @@ public class MainMenuActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    public void goToEvents(View v)
+    {
+        Intent i = new Intent(this, EventList.class);
+        startActivity(i);
     }
 
     @Override

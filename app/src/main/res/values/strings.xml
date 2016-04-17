@@ -32,6 +32,8 @@
     <string name="survey_title">Which do you prefer?</string>
     <string name="or">OR</string>
     <string name="title_activity_survey">Survey</string>
+    <string name="endSurvey">Your answers have been saved. Thanks :)</string>
+    <string name="notavailable">Not Available</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -41,4 +43,5 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_event_list">EventList</string>
 </resources>

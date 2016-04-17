@@ -40,9 +40,15 @@ public class SignUp extends Activity implements URLS
     private static final String TAG = "InstagramAPI";
     private static int REQUEST_EXIT = 0, RESULT_OK = 1;
 
-    private String usernameIG, nameIG, lastnameIG;
+    public static ArrayList<String> likesArray = new ArrayList<String>();
+
+    public static String usernameIG, emailFb;
+    public static String username;
+    public static EditText email;
+
+    private String nameIG, lastnameIG;
     private InstagramSession mSession;
-    private EditText name, lastName, password, confirmPassword, email,gender;
+    private EditText name, lastName, password, confirmPassword,gender;
     public static Context c;
     boolean rememberMeOption = false;
     private InstagramApp mApp;
@@ -61,7 +67,7 @@ public class SignUp extends Activity implements URLS
         }
     });
     CallbackManager callbackManager;
-    ArrayList<String> likes = new ArrayList<String>();
+    public static ArrayList<String> likes = new ArrayList<String>();
     LoginButton loginButton;
 
     @Override
@@ -116,8 +122,8 @@ public class SignUp extends Activity implements URLS
                     getUserInformation(url);
 
 
-                    //url = new URL(API_URL + "/users/self/media/liked?access_token=" + mSession.getAccessToken());
-                    //getUserInformation(url);
+                    url = new URL(API_URL + "/users/self/media/liked?access_token=" + mSession.getAccessToken());
+                    getLikedPictures(url);
 
                     //tags
                     url = new URL(API_URL + "/tags/hakaton/media/recent?access_token=" + mSession.getAccessToken());
@@ -178,16 +184,18 @@ public class SignUp extends Activity implements URLS
                             if(graphObject.has("birthday"))
                                   birthday = graphObject.getString("birthday");
                             String gender = graphObject.getString("gender");
-                            String email = graphObject.getString("email");
-                            System.out.println(lastName + firstName + birthday + gender+email);
+                            emailFb = graphObject.getString("email");
+                            System.out.println(lastName + firstName + birthday + gender+ emailFb);
                             JSONObject location = null;
                             String locationString = "";
                             if(graphObject.has("location")) {
                                 location = graphObject.getJSONObject("location");
                                 locationString = location.getString("name");
                             }
-                            postSignup(firstName,lastName,email,gender,birthday,locationString);
+                            postSignup(firstName,lastName,emailFb,gender,birthday,locationString);
 
+                            sendToSurveyHandler(1);
+                            sendToSurveyHandler(5);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -218,7 +226,7 @@ public class SignUp extends Activity implements URLS
             b.execute(SERVER_URL_SignupFacebook, "signupFacebook", first, last, email, gender, birthday, location, getMyPhoneNumber());
             String response = b.get();
             Toast.makeText(this,"RESPONSE " +response,Toast.LENGTH_LONG).show();
-            if(response.equals("201"))
+            if(response.equals("201") || response.equals("200"))
             {
                 finish();
                 Intent i = new Intent(this, Survey.class);
@@ -323,9 +331,11 @@ public class SignUp extends Activity implements URLS
         String response = b.get();
         if(response.equals("201"))
         {
-            finish();
+            sendToSurveyHandler(3);
             Intent i = new Intent(this, Survey.class);
+            setResult(RESULT_OK, null);
             startActivity(i);
+            finish();
         }
     }
 
@@ -475,7 +485,15 @@ public class SignUp extends Activity implements URLS
                     nameIG = parts[0];
                     lastnameIG = parts[1];
 
-                    System.out.println(response);
+                    username = usernameIG;
+                    //System.out.println(usernameIG);
+
+                    Message msg = Message.obtain();
+                    msg.what = 0;
+                    handler2.sendMessage(msg);
+
+
+
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }catch (IOException e) {
@@ -486,10 +504,6 @@ public class SignUp extends Activity implements URLS
             }
         };
         t.start();
-        while (t.getState() != Thread.State.TERMINATED){
-
-        }
-        postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");
     }
 
     public void getTagInformation(final URL url){
@@ -560,4 +574,64 @@ public class SignUp extends Activity implements URLS
             }
         }.start();
     }
+
+    public void getLikedPictures(final URL url){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+
+                    Log.d(TAG, "Opening URL " + url.toString());
+                    HttpURLConnection urlConnection = (HttpURLConnection) url
+                            .openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setDoInput(true);
+                    urlConnection.connect();
+                    String response = Utils.streamToString(urlConnection
+                            .getInputStream());
+
+                    JSONObject jObj = new JSONObject(response);
+                    JSONArray obj = jObj.getJSONArray("data");
+                    System.out.println(obj.toString());
+
+                    for(int j = 0; j < obj.length(); j++) {
+                        JSONObject tags =( JSONObject ) obj.get(j);
+                        JSONArray tagsArr = tags.getJSONArray("tags");
+                        for (int i = 0; i < tagsArr.length(); i++) {
+                            if(!likesArray.contains(tagsArr.get(i).toString()))
+                                 likesArray.add(tagsArr.get(i).toString());
+                        }
+                    }
+
+                    sendToSurveyHandler(2);
+                    sendToSurveyHandler(4);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public void sendToSurveyHandler(int msgType){
+        Message msg = Message.obtain();
+        msg.what = msgType;
+        Survey.handler.sendMessage(msg);
+    }
+
+    private Handler handler2 = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what){
+                case 0:
+                    postSignup(nameIG, lastnameIG, usernameIG, "null", "null", "null");
+                    break;
+            }
+        }
+    };
 }

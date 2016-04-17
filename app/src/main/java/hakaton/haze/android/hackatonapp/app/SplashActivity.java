@@ -1,12 +1,13 @@
 package hakaton.haze.android.hackatonapp.app;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import hakaton.haze.android.hackatonapp.app.R;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -15,13 +16,14 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mApp = new InstagramApp(SplashActivity.this, InstagramAppData.CLIENT_ID,
                         InstagramAppData.CLIENT_SECRET, InstagramAppData.CALLBACK_URL);
                 Intent i;
-                if (mApp.hasAccessToken()) {
+                if (mApp.hasAccessToken() || (AccessToken.getCurrentAccessToken() != null)) {
                     i = new Intent(SplashActivity.this, MainMenuActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);

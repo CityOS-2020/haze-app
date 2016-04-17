@@ -13,6 +13,7 @@
             android:layout_gravity="center_horizontal" android:layout_marginBottom="50dp"/>
     <ViewSwitcher
             android:layout_width="wrap_content"
+            android:focusableInTouchMode="true"
             android:layout_height="wrap_content"
             android:id="@+id/viewSwitcher" android:focusable="false" android:layout_weight="1">
         <LinearLayout

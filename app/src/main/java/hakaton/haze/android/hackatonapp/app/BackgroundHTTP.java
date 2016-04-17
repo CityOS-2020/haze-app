@@ -3,6 +3,9 @@ package hakaton.haze.android.hackatonapp.app;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,13 +20,17 @@ import java.net.URL;
  */
 public class BackgroundHTTP extends AsyncTask<String, Context, String>{
     String[] login = {"email", "password"};
+    String[] indvLike = {"like", "user"};
+    String[] event = {"like", "user"};
+
     String[] signup = {"name", "lastname","email", "password","gender"};
     String[] signupFacebook = {"name", "lastname", "email", "gender", "birthday", "location","phone_num"};
 
+    JSONArray arr = null;
+    JSONObject obj = null;
 
     Context c;
     ProgressDialog dialog;
-    boolean auth = false;
 
 
 
@@ -32,10 +39,17 @@ public class BackgroundHTTP extends AsyncTask<String, Context, String>{
         this.c = c;
     }
 
-    public BackgroundHTTP(Context c, boolean auth) {
+    public BackgroundHTTP(Context c, JSONArray arr) {
         super();
         this.c = c;
-        this.auth = auth;
+        this.arr = arr;
+        String json = "{\"name\":" + "\"" + Survey.user + "\", \"tags\":" + arr.toString() + "}";
+        System.out.println(json);
+        try {
+            obj = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,17 +62,33 @@ public class BackgroundHTTP extends AsyncTask<String, Context, String>{
             URL url = new URL(params[0]);
             HttpURLConnection connection = prepareConnection(url);
             String urlParameters = "";
-            String[] arr = whereToPost(params[1]);
-            int i = 0;
-            for(int j = 2; j < arr.length + 2; j++)
-            {
-                urlParameters += arr[i++]+ "="+ params[j]+ "&";
+
+            if(arr == null) {
+                String[] arr = whereToPost(params[1]);
+                int i = 0;
+                for (int j = 2; j < arr.length + 2; j++) {
+                    urlParameters += arr[i++] + "=" + params[j] + "&";
+                }
+                writeToStream(connection, urlParameters);
             }
-            writeToStream(connection, urlParameters);
+            else
+            {
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                String msg = obj.toString();
+
+                connection.connect();
+
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(msg);
+
+            }
+
 
             int responseCode = connection.getResponseCode();
 
-            output = generateOutput(url,urlParameters,responseCode,connection);
+            output = generateOutput(url, urlParameters, responseCode, connection);
+
 
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -92,7 +122,14 @@ public class BackgroundHTTP extends AsyncTask<String, Context, String>{
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
-        connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+        if(arr != null) {
+            connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+            connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+        }
+        else
+            connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+
         connection.setDoOutput(true);
 
         return connection;
@@ -114,6 +151,10 @@ public class BackgroundHTTP extends AsyncTask<String, Context, String>{
             return signup;
         else if(param.equalsIgnoreCase("signupFacebook"))
             return signupFacebook;
+        else if(param.equalsIgnoreCase("indvLike"))
+            return indvLike;
+        else if(param.equalsIgnoreCase("event"))
+            return event;
 
 
         return null;
@@ -122,13 +163,15 @@ public class BackgroundHTTP extends AsyncTask<String, Context, String>{
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog = ProgressDialog.show(c, "Loading...", "Please wait...", true);
+        if(arr == null)
+            dialog = ProgressDialog.show(c, "Loading...", "Please wait...", true);
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        dialog.dismiss();
+        if(arr == null)
+            dialog.dismiss();
     }
 
     @Override
